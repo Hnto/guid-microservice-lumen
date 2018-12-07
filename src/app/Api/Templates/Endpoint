@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Api\Endpoints;
+
+use App\Api\Skeletons\Endpoint;
+use App\Core\Requests\Params;
+
+class {name} implements Endpoint
+{
+
+    /**
+     * Execute api endpoint with params object
+     *
+     * @param Params $params
+     *
+     * @return array
+     */
+    public function execute(Params $params)
+    {
+        return [];
+    }
+}

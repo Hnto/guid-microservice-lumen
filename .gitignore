@@ -1,0 +1,7 @@
+.idea
+/logs
+/mysql
+.env
+.DS_Store
+/vendor
+

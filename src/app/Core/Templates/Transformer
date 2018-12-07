@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Core\{namespace};
+
+use App\Core\{namespace}\{namespace};
+use League\Fractal\TransformerAbstract;
+
+class {namespace}Transformer extends TransformerAbstract
+{
+    public function transform({namespace} {var})
+    {
+        return {var}->toArray();
+    }
+}

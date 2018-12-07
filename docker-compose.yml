@@ -1,0 +1,70 @@
+version: '3'
+services:
+  ### PHP-FPM Container
+  php-fpm:
+    container_name: ${COMPOSE_PROJECT_NAME}_php-fpm
+    build: ./build/php-fpm
+    restart: always
+    volumes:
+    - ./src:/var/www
+    expose:
+    - "9000"
+    links:
+    - mysql
+
+  ### NGINX Container
+  nginx:
+    container_name: ${COMPOSE_PROJECT_NAME}_nginx
+    build: ./build/nginx
+    restart: always
+    volumes:
+    - ./logs/nginx/:/var/log/nginx
+    - ./src:/var/www
+    ports:
+    - "80"
+    - "443"
+    links:
+    - php-fpm
+
+  ### MySQL Container
+  mysql:
+    container_name: ${COMPOSE_PROJECT_NAME}_mysql
+    build: ./build/mysql
+    restart: always
+    volumes:
+    - ./mysql/data/:/var/lib/mysql
+    - ./mysql/conf.d/:/etc/mysql/conf.d
+    expose:
+    - "3306"
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+
+  adminer:
+    container_name: ${COMPOSE_PROJECT_NAME}_adminer
+    image: adminer
+    restart: always
+    ports:
+    - "8080"
+
+  ### Application Code Container
+  application:
+    container_name: ${COMPOSE_PROJECT_NAME}_application
+    restart: always
+    build: ./build/application
+
+  ### Workspace Utilities Container
+  workspace:
+    container_name: ${COMPOSE_PROJECT_NAME}_workspace
+    restart: always
+    build: ./build/workspace
+    volumes:
+    - ./src:/var/www:cached
+    links:
+    - mysql
+    tty: true
+
+volumes:
+  src:

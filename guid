@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+require __DIR__.'/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+$application->add(new \Guid\UpdateGuidCommand());
+$application->add(new \Guid\GuidStatusCommand());
+$application->add(new \Guid\GuidUninstallCommand());
+$application->add(new \Guid\RestartContainersCommand());
+$application->add(new \Guid\StartContainersCommand());
+$application->add(new \Guid\KillContainersCommand());
+$application->add(new \Guid\StopContainersCommand());
+$application->add(new \Guid\InstallGuidCommand());
+
+$application->run();

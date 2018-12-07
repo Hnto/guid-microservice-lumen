@@ -1,0 +1,138 @@
+FORMAT: 1A
+HOST: HOST/
+
+# GUID
+
+Any request to the API must be done by
+providing a valid token plus your api key. The token can be retrieved through an authentication request.
+The authentication request itself must be done by providing a valid API key.
+
+## Authentication [/authenticate]
+
+### Authenticate [GET]
+When successfully authenticated, you are given a token which is valid for a maximum of 1 day.
+
++ Request (application/json)
+
+    + Headers
+
+            x-api-key: api_key_value
+
++ Response 200 (application/json)
+
+        {
+            "status": "authenticated",
+            "value": "0251791b002f142fe7524f5770b63f78d6a719471a690a17955e31df7fe333db",
+            "expires": "2018-03-27 08:57:09"
+        }
+
+## GUIDS Object [/guids/{guid}]
+
++ Parameters
+    + guid (string) - GUID value
+
+### Get GUID object [GET]
+Retrieve information about a guid object
+
++ Request (application/json)
+
+    + Headers
+
+            x-api-key: api_key_value
+            x-token: token_value
+
++ Response 200 (application/json)
+
+        {
+            "data": {
+                "guid": "e0f1b2c8-d48f-4141-be90-cd05679083e6",
+                "status": "assigned",
+                "assigned_to": "EMMA",
+                "created_at": "2018-03-26 09:09:20",
+                "assigned_at": "2018-03-27 10:19:25"
+            }
+        }
+
+## GUIDS Collection [/guids]
+
+### List all non-assigned GUIDS [GET]
+Lists all the guids that have been created but not yet assigned.
+
++ Request (application/json)
+
+    + Headers
+
+            x-api-key: api_key_value
+            x-token: token_value
+
++ Response 200 (application/json)
+
+        {
+            "data": [
+                {
+                    "guid": "288cc777-78ca-4148-8254-bf51be335a36",
+                    "assigned_to": "",
+                    "status": "issued",
+                    "created_at": "2018-03-26 09:09:19",
+                    "assigned_at": null
+                },
+                {
+                    "guid": "761429aa-e083-4fad-bd0c-fdd316a0e876",
+                    "assigned_to": "",
+                    "status": "issued",
+                    "created_at": "2018-03-26 09:09:17",
+                    "assigned_at": null
+                },
+                {
+                    "guid": "e0f1b2c8-d48f-4141-be90-cd05679083e6",
+                    "assigned_to": "",
+                    "status": "issued",
+                    "created_at": "2018-03-26 09:09:20"
+                    "assigned_at": null
+                }
+            ]
+        }
+
+### Create a new GUID [PUT]
+
++ Request (application/json)
+
+    + Headers
+
+            x-api-key: api_key_value
+            x-token: token_value
+
++ Response 201 (application/json)
+
+        {
+            "data": {
+                "guid": "e0f1b2c8-d48f-4141-be90-cd05679083e6",
+                "status": "issued"
+            }
+        }
+
+### Assign a GUID to entity [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            x-api-key: api_key_value
+            x-token: token_value
+
+    + Body
+
+            {
+                "guid": "21350d73-5d4c-42f5-b837-e6cf0d116255",
+                "assign_to": "EMMA"
+            }
+
++ Response 200 (application/json)
+
+        {
+            "data": {
+                "guid": "e0f1b2c8-d48f-4141-be90-cd05679083e6",
+                "status": "assigned",
+                "assigned_to": "EMMA"
+            }
+        }
